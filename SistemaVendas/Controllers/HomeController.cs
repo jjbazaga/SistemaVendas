@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SistemaVendas.Models;
+using SistemaVendas.Uteis;
 
 namespace SistemaVendas.Controllers
 {
@@ -12,6 +13,7 @@ namespace SistemaVendas.Controllers
     {
         public IActionResult Index()
         {
+            
             return View();
         }
 
