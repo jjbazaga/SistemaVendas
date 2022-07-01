@@ -1,17 +1,21 @@
-﻿using MySql.Data.MySqlClient;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using MySql.Data.MySqlClient;
 using System.Data;
-
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace SistemaVendas.Uteis
 {
-    //Data Acces Layer
+    //Data Access Layer
     public class DAL
     {
         private static string Server = "localhost";
         private static string Database = "sistema_venda";
         private static string User = "root";
-        private static string Password = "";
-        private static string ConnectionString = $"Server={Server}; Database{Database};Uid={User};Pwd{Password};Ssl=none;Charset=utf8";
+        private static string Password = "1234567";
+        private static string ConnectionString = $"Server={Server};Database={Database};Uid={User};Pwd={Password};Sslmode=none";
         private static MySqlConnection Connection;
 
         public DAL()
@@ -19,7 +23,8 @@ namespace SistemaVendas.Uteis
             Connection = new MySqlConnection(ConnectionString);
             Connection.Open();
         }
-        //Espera um parametro do tipo string
+
+        //Espera um parâmetro do tipo string 
         //contendo um comando SQL do tipo SELECT
         public DataTable RetDataTable(string sql)
         {
@@ -30,7 +35,7 @@ namespace SistemaVendas.Uteis
             return data;
         }
 
-        //Espera um parametro do tipo string
+        //Espera um parâmetro do tipo string 
         //contendo um comando SQL do tipo INSERT, UPDATE, DELETE
         public void ExecutarComandoSQL(string sql)
         {
