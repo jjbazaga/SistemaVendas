@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SistemaVendas.Models;
 using SistemaVendas.Uteis;
@@ -30,6 +31,8 @@ namespace SistemaVendas.Controllers
                 bool loginOK = login.ValidarLogin();
                 if (loginOK)
                 {
+                    HttpContext.Session.SetString("IdUsuarioLogado", login.Id);
+                    HttpContext.Session.SetString("NomeUsuarioLogado", login.Nome);
                     return RedirectToAction("Menu", "Home");
                 }
                 else

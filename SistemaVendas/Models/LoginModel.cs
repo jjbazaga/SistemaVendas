@@ -10,23 +10,30 @@ namespace SistemaVendas.Models
 {
     public class LoginModel
     {
-        [Required(ErrorMessage = "Informe o E-mail do usuário!")]
+        public string Id { get; set; }
+
+        public string Nome { get; set; }
+
+        [Required(ErrorMessage = "Informe o e-mail do usuário!")]
         [DataType(DataType.EmailAddress)]
-        [EmailAddress(ErrorMessage = "O E-mail informado é inválido!")]
+        [EmailAddress(ErrorMessage = "O e-mail informado é inválido!")]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Informe a senha do usuário!")]
         public string Senha { get; set; }
 
-        //Existe um problema gravissimo de segurança com essa abordagem. SQL Injection
-        //Criarei um método mais adequado
+        //Existe um problema grave de segurança com essa abordagem => SQL Injection
+        //Vamos depois criar um método mais adequado
         public bool ValidarLogin()
         {
-            string sql = $"Select id from sistema_venda.vendedor WHERE Email='{Email}' AND Senha='{Senha}'";
+            string sql = $"SELECT Id, Nome FROM sistema_venda.vendedor WHERE Email='{Email}' AND Senha='{Senha}'";
+
             DAL objDAL = new DAL();
             DataTable dt = objDAL.RetDataTable(sql);
             if (dt.Rows.Count == 1)
             {
+                Id = dt.Rows[0]["Id"].ToString();
+                Nome = dt.Rows[0]["Nome"].ToString();
                 return true;
             }
             else
