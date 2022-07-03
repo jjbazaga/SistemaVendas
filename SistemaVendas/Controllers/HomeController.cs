@@ -11,6 +11,11 @@ namespace SistemaVendas.Controllers
 {
     public class HomeController : Controller
     {
+        public IActionResult Menu()
+        {
+            return View();
+        }
+
         [HttpGet]
         public IActionResult Login()
         {
@@ -23,6 +28,14 @@ namespace SistemaVendas.Controllers
             if (ModelState.IsValid)
             {
                 bool loginOK = login.ValidarLogin();
+                if (loginOK)
+                {
+                    return RedirectToAction("Menu", "Home");
+                }
+                else
+                {
+                    TempData["ErrorLogin"] = "E-mail ou Senha são inválidos!";
+                }
             }
             return View();
         }

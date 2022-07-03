@@ -32,7 +32,20 @@
 
 <div class="login-form">
     <form asp-controller="Home" asp-action="Login" method="post">
-        <h2 class="text-center">Sistema Vendas</h2>
+        <h2 class="text-center">Sistema de Vendas</h2>
+
+        @{ 
+            try
+            {
+                var erro = TempData["ErrorLogin"].ToString();
+                <h5 class = "text-danger">@erro</h5>
+            }
+            catch
+            {
+
+            }
+        }
+
         <div class="form-group">
             <input type="text" class="form-control" asp-for="Email" placeholder="Email">
             <span asp-validation-for="Email" class="text-danger"></span>
