@@ -12,7 +12,7 @@ namespace SistemaVendas.Models
     {
         public string Id { get; set; }
 
-        [Required(ErrorMessage ="Informe o Nome do cliente")]
+        [Required(ErrorMessage = "Informe o Nome do cliente")]
         public string Nome { get; set; }
 
         [Required(ErrorMessage = "Informe o CPF/CNPJ do cliente")]
@@ -47,10 +47,46 @@ namespace SistemaVendas.Models
             return lista;
         }
 
-        public void Inserir()
+        public ClienteModel RetornarCliente(int? id)
+        {
+            ClienteModel item;
+            DAL objDAL = new DAL();
+            string sql = $"SELECT id, nome, cpf_cnpj, email, senha FROM Cliente WHERE id='{id}' ORDER by nome ASC";
+            DataTable dt = objDAL.RetDataTable(sql);
+
+            item = new ClienteModel
+            {
+                Id = dt.Rows[0]["Id"].ToString(),
+                Nome = dt.Rows[0]["Nome"].ToString(),
+                Email = dt.Rows[0]["Email"].ToString(),
+                CPF = dt.Rows[0]["cpf_cnpj"].ToString(),
+                Senha = dt.Rows[0]["Senha"].ToString(),
+            };
+            return item;
+        }
+
+        //INSERT OU UPDATE
+        public void Gravar()
         {
             DAL objDAL = new DAL();
-            string sql = $"INSERT INTO cliente(nome, cpf_cnpj, email, senha) values ('{Nome}', '{CPF}','{Email}', '{123456}')";
+            string sql = string.Empty;
+            if (Id != null)
+            {
+                sql = $"UPDATE cliente SET NOME='{Nome}', CPF_CNPJ='{CPF}', EMAIL='{Email}' where id={Id}";
+            }
+            else
+            {
+                sql = $"INSERT INTO cliente(nome, cpf_cnpj, email, senha) values ('{Nome}', '{CPF}','{Email}', '{123456}')";
+            }
+
+            objDAL.ExecutarComandoSQL(sql);
+        }
+
+        //DELETE
+        public void Excluir(int id)
+        {
+            DAL objDAL = new DAL();
+            string sql = $"DELETE FROM CLIENTE WHERE ID='{id}'";
             objDAL.ExecutarComandoSQL(sql);
         }
     }

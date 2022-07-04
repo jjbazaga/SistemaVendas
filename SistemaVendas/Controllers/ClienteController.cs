@@ -16,8 +16,13 @@ namespace SistemaVendas.Controllers
         }
 
         [HttpGet]
-        public IActionResult Cadastro()
+        public IActionResult Cadastro(int? id) 
         {
+             if(id != null)
+            {
+                //Carregar o registro do cliente em uma ViewBag
+                ViewBag.Cliente = new ClienteModel().RetornarCliente(id);
+            }
             return View();
         }
 
@@ -26,9 +31,21 @@ namespace SistemaVendas.Controllers
         {
             if (ModelState.IsValid)
             {
-                cliente.Inserir();
+                cliente.Gravar();
                 return RedirectToAction("Index"); 
             }
+            return View();
+        }
+
+        public IActionResult Excluir(int id)
+        {
+            ViewData["IdExcluir"] = id;
+            return View();
+        }
+
+        public IActionResult ExcluirCliente(int id)
+        {
+            new ClienteModel().Excluir(id);
             return View();
         }
     }
