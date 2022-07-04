@@ -4,14 +4,23 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Data;
 using SistemaVendas.Uteis;
+using System.ComponentModel.DataAnnotations;
 
 namespace SistemaVendas.Models
 {
     public class ClienteModel
     {
         public string Id { get; set; }
+
+        [Required(ErrorMessage ="Informe o Nome do cliente")]
         public string Nome { get; set; }
+
+        [Required(ErrorMessage = "Informe o CPF/CNPJ do cliente")]
         public string CPF { get; set; }
+
+        [Required(ErrorMessage = "Informe o E-mail do cliente")]
+        [DataType(DataType.EmailAddress)]
+        [EmailAddress(ErrorMessage = "O E-mail informado é inválido!")]
         public string Email { get; set; }
         public string Senha { get; set; }
 
@@ -36,6 +45,13 @@ namespace SistemaVendas.Models
                 lista.Add(item);
             }
             return lista;
+        }
+
+        public void Inserir()
+        {
+            DAL objDAL = new DAL();
+            string sql = $"INSERT INTO cliente(nome, cpf_cnpj, email, senha) values ('{Nome}', '{CPF}','{Email}', '{123456}')";
+            objDAL.ExecutarComandoSQL(sql);
         }
     }
 }

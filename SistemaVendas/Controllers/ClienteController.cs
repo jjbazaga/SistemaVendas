@@ -14,5 +14,22 @@ namespace SistemaVendas.Controllers
             ViewBag.ListaClientes = new ClienteModel().ListarTodosCliente();
             return View();
         }
+
+        [HttpGet]
+        public IActionResult Cadastro()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Cadastro(ClienteModel cliente)
+        {
+            if (ModelState.IsValid)
+            {
+                cliente.Inserir();
+                return RedirectToAction("Index"); 
+            }
+            return View();
+        }
     }
 }
