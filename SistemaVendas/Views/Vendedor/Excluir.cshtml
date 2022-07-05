@@ -1,4 +1,4 @@
-﻿<h2>Excluir Cliente</h2>
+﻿<h2>Excluir Vendedor</h2>
 
 <h4>Deseja excluir este cliente do Banco de Dados?</h4>
 <h5>Uma vez excluido, não tem como recupera-lo novamente!</h5>
@@ -10,12 +10,12 @@
     function Sim()
     {
         alert('sim');
-        window.location.href = '../../Cliente/ExcluirCliente/' + '@ViewData["idExcluir"].ToString()';
+        window.location.href = '../../Vendedor/ExcluirVendedor/' + '@ViewData["idExcluir"].ToString()';
     }
 
     function Nao()
     {
         alert('Não');
-        window.location.href= '../../Cliente/Index'
+        window.location.href= '../../Vendedor/Index'
     }
 </script>

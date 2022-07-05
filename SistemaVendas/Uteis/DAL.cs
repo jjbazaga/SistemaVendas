@@ -14,7 +14,7 @@ namespace SistemaVendas.Uteis
         private static string Server = "localhost";
         private static string Database = "sistema_venda";
         private static string User = "root";
-        private static string Password = "1234567";
+        private static string Password = "170153-d";
         private static string ConnectionString = $"Server={Server};Database={Database};Uid={User};Pwd={Password};Sslmode=none";
         private static MySqlConnection Connection;
 
