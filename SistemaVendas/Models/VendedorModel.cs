@@ -21,7 +21,7 @@ namespace SistemaVendas.Models
         public string Email { get; set; }
         public string Senha { get; set; }
 
-        public List<VendedorModel> ListarTodosVendedor()
+        public List<VendedorModel> ListarTodosVendedores()
         {
             List<VendedorModel> lista = new List<VendedorModel>();
             VendedorModel item;

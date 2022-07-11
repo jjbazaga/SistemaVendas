@@ -11,7 +11,7 @@ namespace SistemaVendas.Controllers
     {
         public IActionResult Index()
         {
-            ViewBag.ListaClientes = new ClienteModel().ListarTodosCliente();
+            ViewBag.ListaClientes = new ClienteModel().ListarTodosClientes();
             return View();
         }
 

@@ -26,7 +26,7 @@ namespace SistemaVendas.Models
 
         public string Link_Foto { get; set; }
 
-        public List<ProdutoModel> ListarTodosProduto()
+        public List<ProdutoModel>ListarTodosProdutos()
         {
             List<ProdutoModel> lista = new List<ProdutoModel>();
             ProdutoModel item;
@@ -51,7 +51,7 @@ namespace SistemaVendas.Models
             return lista;
         }
 
-        public ProdutoModel RetornarProduto(int? id)
+        public ProdutoModel RetornarProdutos(int? id)
         {
             ProdutoModel item;
             DAL objDAL = new DAL();

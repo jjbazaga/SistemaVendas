@@ -11,7 +11,7 @@ namespace SistemaVendas.Controllers
     {
         public IActionResult Index()
         {
-            ViewBag.ListaProdutos = new ProdutoModel().ListarTodosProduto();
+            ViewBag.ListaProdutos = new ProdutoModel().ListarTodosProdutos();
             return View();
         }
 
@@ -21,7 +21,7 @@ namespace SistemaVendas.Controllers
              if(id != null)
             {
                 //Carregar o registro do produto em uma ViewBag
-                ViewBag.Produto = new ProdutoModel().RetornarProduto(id);
+                ViewBag.Produto = new ProdutoModel().RetornarProdutos(id);
             }
             return View();
         }
