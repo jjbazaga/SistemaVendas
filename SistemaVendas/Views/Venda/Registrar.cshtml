@@ -1,9 +1,7 @@
 ﻿@model VendaModel
-
 <h2>Registrar uma Venda</h2>
 <br />
-
-<form asp-controller="Vendas" asp-action="Registrar">
+<form asp-controller="Venda" asp-action="Registrar">
     <input type="hidden" asp-for="Id" value="@try { @ViewBag.Venda.Id } catch { }" />
 
     <div class="form-group">
@@ -30,6 +28,78 @@
         </select>
     </div>
 
+    <label>Produtos</label>
+    <br /><br />
+    <div class="form-group">
+        <div class="col-lg-9">
+            <select class="form-control"  id="sltProduto">
+                @{
+                    foreach (var item in (List<ProdutoModel>)ViewBag.ListaProdutos)
+                    {
+                        <option value="@item.Id">@item.Nome</option>
+                    }
+                }
+            </select>
+        </div>
+        <div class="col-lg-1">
+            <input type="text" class="form-control" value="1" id="txtQuantidade" />
+        </div>
+        <div class="col-lg-2">
+            <button type="button" class="btn btn-block btn-primary" onclick="AdicionarProduto()">Adicionar</button>
+        </div>
+    </div>
+
+    <br /> <br />
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <td>Id</td>
+                <td>Nome</td>
+                <td>Quantidade</td>
+                <td>Preço Unitário</td>
+                <td>Total</td>
+            </tr>
+        </thead>
+
+        <tbody id="listaProdutos"></tbody>
+    </table>
+
+
     <button type="submit" class="btn btn-block btn-success">Registrar</button>
 </form>
+
+<script>
+    var Itens = new Object();
+    Itens.Produtos = new Array();
+
+    var CodigoProduto = document.getElementById("sltProduto");
+    var QtdeProduto = document.getElementById("txtQuantidade");
+    var ListaProdutos = document.getElementById("listaProdutos");
+
+    console.log(ListaProdutos);
+
+    function AdicionarProduto() {
+
+        Itens.Produtos.push({
+            "CodigoProduto": CodigoProduto.value,
+            "DescricaoProduto": CodigoProduto.options[CodigoProduto.selectedIndex].text,
+            "QtdeProduto": QtdeProduto.value,
+            "PrecoUnitario": "0",
+            "Total": "0"
+        });
+
+        var produto = "<tr>" +
+            "<td>" + CodigoProduto.value + "</td>" +
+            "<td>" + CodigoProduto.options[CodigoProduto.selectedIndex].text + "</td>" +
+            "<td>" + QtdeProduto.value + "</td>" +
+            "<td>" + CodigoProduto.value + "</td>" +
+            "<td>" + CodigoProduto.value + "</td>" +
+            "</tr>";
+
+        ListaProdutos.innerHTML += produto;
+
+    }
+
+</script>
 
