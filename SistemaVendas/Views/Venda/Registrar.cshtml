@@ -66,7 +66,11 @@
 
     <div style="float:left; font-size:22px;">Total: R$</div>
     <div style="float:left; font-size:22px; margin-left:5px;" id="divTotal">0.00</div>
+    
     <br /><br />
+    
+    <textarea asp-for="ListaProdutos" id="ListaProdutos"></textarea>
+    
     <button type="submit" class="btn btn-block btn-success">Registrar</button>
 </form>
 
@@ -78,6 +82,7 @@
     var QtdeProduto = document.getElementById("txtQuantidade");
     var ListaProdutos = document.getElementById("listaProdutos");
     var TotalVenda = document.getElementById("divTotal");
+    var ListaProdutosJSON = document.getElementById("ListaProdutos");
 
     function AdicionarProduto() {
         
@@ -94,6 +99,8 @@
             "PrecoUnitario": arrayDescricaoPreco[1],
             "Total": total
         });
+
+        ListaProdutosJSON.innerHTML = JSON.stringify(Itens.Produtos);
 
         var produto = "<tr>" +
             "<td>" + CodigoProduto.value + "</td>" +
