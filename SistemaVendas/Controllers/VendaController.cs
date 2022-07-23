@@ -26,6 +26,7 @@ namespace SistemaVendas.Controllers
         [HttpPost]
         public IActionResult Registrar(VendaModel venda)
         {
+            
             return View();
         }
 

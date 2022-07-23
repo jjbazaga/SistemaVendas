@@ -7,6 +7,7 @@ using System.Data;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 
+
 namespace SistemaVendas.Models
 {
     public class ProdutoModel
