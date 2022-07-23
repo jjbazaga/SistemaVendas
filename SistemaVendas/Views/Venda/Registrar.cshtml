@@ -85,12 +85,15 @@
     var ListaProdutosJSON = document.getElementById("ListaProdutos");
 
     function AdicionarProduto() {
-        
+        console.log(CodigoProduto);
         var DescricaoPreco = CodigoProduto.options[CodigoProduto.selectedIndex].text;
         var arrayDescricaoPreco = DescricaoPreco.split('|');
-        var total = ((arrayDescricaoPreco[1].replace(",", ".") * QtdeProduto.value));
+        const total = parseFloat((arrayDescricaoPreco[1].replace(",", ".") * QtdeProduto.value)).toFixed(2);
 
-        total = (Math.round(total * 100) / 100);
+        //var total = ((arrayDescricaoPreco[1].replace(",", ".") * QtdeProduto.value));
+
+
+        //total = (Math.round(total * 100) / 100);
 
         Itens.Produtos.push({
             "CodigoProduto": CodigoProduto.value,
@@ -110,8 +113,18 @@
             "<td> R$ " + total + "</td>" +
             "</tr>";
         ListaProdutos.innerHTML += produto;
-        var TotalGeral = Math.round((TotalVenda.innerText * 1 + total) * 100) / 100;
-        TotalVenda.innerHTML = TotalGeral.toString().replace(".", ",");
+        var TotalGeral = parseFloat(calcularTotal(Itens.Produtos)).toFixed(2);
+        console.log(TotalGeral);
+        TotalVenda.innerHTML = TotalGeral;
 
+    }
+
+    function calcularTotal(listaProdutos) {
+        let total = 0;
+        listaProdutos.forEach((produto) => {        
+            total += parseFloat(produto.Total);
+            console.log(total);
+        });
+        return total;
     }
 </script>
