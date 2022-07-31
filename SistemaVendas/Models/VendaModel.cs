@@ -11,6 +11,7 @@ namespace SistemaVendas.Models
         public string Id { get; set; }
         public string Cliente_Id { get; set; }
         public string Vendedor_Id { get; set; }
+        public double Total { get; set; }
         public string ListaProdutos { get; set; }
 
         public List<ClienteModel> RetornarListaClientes()

@@ -1,28 +1,14 @@
 ﻿@model VendaModel
-
 <h2>Registrar uma Venda</h2>
 <br />
 <form asp-controller="Venda" asp-action="Registrar">
-    <input type="hidden" asp-for="Id" value="@try { @ViewBag.Venda.Id } catch { }" />
+    @*<input type="hidden" asp-for="Id" value="@try { @ViewBag.Venda.Id } catch { }" />*@
 
     <div class="form-group">
         <label>Cliente</label>
         <select asp-for="Cliente_Id" class="form-control">
             @{
-                foreach (var item in ViewBag.ListaClientes) //ViewBag da lista clientes
-
-                {
-                    <option value="@item.Id">@item.Nome</option> //option na classe de seleção
-                }
-            }
-        </select>
-    </div>
-
-    <div class="form-group">
-        <label>Vendedor</label>
-        <select asp-for="Vendedor_Id" class="form-control">
-            @{
-                foreach (var item in ViewBag.ListaVendedores)
+                foreach (var item in (List<ClienteModel>)ViewBag.ListaClientes)
                 {
                     <option value="@item.Id">@item.Nome</option>
                 }
@@ -30,12 +16,25 @@
         </select>
     </div>
 
+    @*<div class="form-group">
+            <label>Vendedor</label>
+            <select asp-for="Vendedor_Id" class="form-control">
+                @{
+                    foreach (var item in (List<VendedorModel>)ViewBag.ListaVendedores)
+                    {
+                        <option value="@item.Id">@item.Nome</option>
+                    }
+                }
+            </select>
+        </div>*@
+
     <label>Produtos</label>
+    <br /><br />
     <div class="form-group">
         <div class="col-lg-9">
             <select class="form-control" id="sltProduto">
                 @{
-                    foreach (var item in ViewBag.ListaProdutos)
+                    foreach (var item in (List<ProdutoModel>)ViewBag.ListaProdutos)
                     {
                         <option value="@item.Id">@item.Nome | @item.Preco_Unitario</option>
                     }
@@ -45,33 +44,39 @@
         <div class="col-lg-1">
             <input type="text" class="form-control" value="1" id="txtQuantidade" />
         </div>
-
         <div class="col-lg-2">
             <button type="button" class="btn btn-block btn-primary" onclick="AdicionarProduto()">Adicionar</button>
         </div>
     </div>
+
     <br /><br />
+
     <table class="table table-bordered">
         <thead>
             <tr>
                 <td>Id</td>
-                <td>Nomedo Produto</td>
+                <td>Nome</td>
                 <td>Quantidade</td>
                 <td>Preço Unitário</td>
                 <td>Total</td>
             </tr>
         </thead>
+
         <tbody id="listaProdutos"></tbody>
     </table>
 
+
     <div style="float:left; font-size:22px;">Total: R$</div>
     <div style="float:left; font-size:22px; margin-left:5px;" id="divTotal">0.00</div>
-    
+
+    <input type="hidden" id="txtTotal" asp-for="Total" />
+
     <br /><br />
-    
-    <textarea asp-for="ListaProdutos" id="ListaProdutos"></textarea>
-    
+
+    <textarea asp-for="ListaProdutos" id="ListaProdutosJSON" style="display:none;"></textarea>
+
     <button type="submit" class="btn btn-block btn-success">Registrar</button>
+    <button type="button" class="btn btn-block btn-primary" onclick="Voltar()">Listagem de Vendas</button>
 </form>
 
 <script>
@@ -82,22 +87,23 @@
     var QtdeProduto = document.getElementById("txtQuantidade");
     var ListaProdutos = document.getElementById("listaProdutos");
     var TotalVenda = document.getElementById("divTotal");
-    var ListaProdutosJSON = document.getElementById("ListaProdutos");
+    var txtTotal = document.getElementById("txtTotal");
+    var ListaProdutosJSON = document.getElementById("ListaProdutosJSON");
+
+    function Voltar() {
+        window.location.href = '../Venda/Index';
+    }
 
     function AdicionarProduto() {
-        console.log(CodigoProduto);
+
         var DescricaoPreco = CodigoProduto.options[CodigoProduto.selectedIndex].text;
         var arrayDescricaoPreco = DescricaoPreco.split('|');
-        const total = parseFloat((arrayDescricaoPreco[1].replace(",", ".") * QtdeProduto.value)).toFixed(2);
-
-        //var total = ((arrayDescricaoPreco[1].replace(",", ".") * QtdeProduto.value));
-
-
-        //total = (Math.round(total * 100) / 100);
+        var total = (arrayDescricaoPreco[1].replace(",", ".") * QtdeProduto.value);
+        total = Math.round(total * 100) / 100;
 
         Itens.Produtos.push({
             "CodigoProduto": CodigoProduto.value,
-            "DescricaoProduto": arrayDescricaoPreco[0],     //CodigoProduto.options[CodigoProduto.selectedIndex].text,
+            "DescricaoProduto": arrayDescricaoPreco[0],
             "QtdeProduto": QtdeProduto.value,
             "PrecoUnitario": arrayDescricaoPreco[1],
             "Total": total
@@ -109,22 +115,14 @@
             "<td>" + CodigoProduto.value + "</td>" +
             "<td>" + arrayDescricaoPreco[0] + "</td>" +
             "<td>" + QtdeProduto.value + "</td>" +
-            "<td> R$ " + arrayDescricaoPreco[1] + "</td>" +
-            "<td> R$ " + total + "</td>" +
+            "<td> R$" + arrayDescricaoPreco[1] + "</td>" +
+            "<td> R$" + total.toFixed(2).toString().replace(".",",") + "</td>" +
             "</tr>";
+
         ListaProdutos.innerHTML += produto;
-        var TotalGeral = parseFloat(calcularTotal(Itens.Produtos)).toFixed(2);
-        console.log(TotalGeral);
-        TotalVenda.innerHTML = TotalGeral;
-
+        var totalGeral = TotalVenda.innerText * 1 + total;
+        TotalVenda.innerHTML = totalGeral.toFixed(2);
+        txtTotal.value = totalGeral.toString().replace(".",",");
     }
 
-    function calcularTotal(listaProdutos) {
-        let total = 0;
-        listaProdutos.forEach((produto) => {        
-            total += parseFloat(produto.Total);
-            console.log(total);
-        });
-        return total;
-    }
 </script>
