@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using SistemaVendas.Models;
+using SistemaVendas.Uteis;
 
 namespace SistemaVendas.Models
 {
@@ -27,6 +28,18 @@ namespace SistemaVendas.Models
         public List<ProdutoModel> RetornarListaProdutos()
         {
             return new ProdutoModel().ListarTodosProdutos();
+        }
+
+        public void Inserir()
+        {
+            DAL objDAL = new DAL();
+
+            string dataVenda = DateTime.Now.Date.ToString("yyyy/MM/dd");
+
+            string sql = "INSERT INTO venda (data, total, vendedorId, clienteId)" +
+                $"VALUES ('{dataVenda}', '{Total}', '{Vendedor_Id}' , '{Cliente_Id}')";
+           
+            objDAL.ExecutarComandoSQL(sql);
         }
     }
 }

@@ -16,7 +16,7 @@
         </select>
     </div>
 
-    @*<div class="form-group">
+    <div class="form-group">
             <label>Vendedor</label>
             <select asp-for="Vendedor_Id" class="form-control">
                 @{
@@ -26,7 +26,7 @@
                     }
                 }
             </select>
-        </div>*@
+        </div>
 
     <label>Produtos</label>
     <br /><br />
@@ -116,13 +116,13 @@
             "<td>" + arrayDescricaoPreco[0] + "</td>" +
             "<td>" + QtdeProduto.value + "</td>" +
             "<td> R$" + arrayDescricaoPreco[1] + "</td>" +
-            "<td> R$" + total.toFixed(2).toString().replace(".",",") + "</td>" +
+            "<td> R$" + total + "</td>" +
             "</tr>";
 
         ListaProdutos.innerHTML += produto;
-        var totalGeral = TotalVenda.innerText * 1 + total;
-        TotalVenda.innerHTML = totalGeral.toFixed(2);
-        txtTotal.value = totalGeral.toString().replace(".",",");
+        var totalGeral = Math.round((TotalVenda.innerText * 1 + total) * 100) / 100;
+        TotalVenda.innerHTML = totalGeral;
+        txtTotal.value = totalGeral.toString().replace(".", ",");
     }
 
 </script>
